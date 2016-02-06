@@ -85,4 +85,8 @@ class Individual
     end
   end
 
+  def save!
+    # :noop:
+  end
+
 end
