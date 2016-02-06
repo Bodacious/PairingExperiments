@@ -1,13 +1,15 @@
 require_relative "individual"
 require_relative "encounter"
 require_relative "pairing"
+require_relative "evaluation"
+
 module Experiment
 
 
   module_function
 
   def run!
-    Individual.pair_off
+    Individual.pair_all
     print_report
   end
 

@@ -28,30 +28,39 @@ class Individual
   end
 
   def self.all
-    @all ||= begin
-      array = []
-      GENDERS.each do |gender|
-        ATTRACTIVENESS.each do |attractiveness|
-          array << new(gender, attractiveness)
-        end
+    @all ||= []
+  end
+
+  def self.reset_all
+    @all = []
+  end
+
+  def self.pair_all
+    loop do
+      if available_males.any? && available_females.any?
+        Encounter.new(available_males.sample, available_females.sample,
+          available_males.size, available_females.size)
+      else
+        break
       end
-      array
     end
   end
 
-  def self.pair_off
-    begin
-      puts "Available males: #{Individual.available_males.size}"
-      puts "Available females: #{Individual.available_females.size}"
-      Encounter.
-        new(Individual.available_males.sample, Individual.available_females.sample)
-    end until Individual.all.select(&:available?).empty?
-  end
+
 
   def initialize(gender, attractiveness)
     @gender         = gender
     @attractiveness = attractiveness
     @rejected_by    = []
+    self.class.all << self
+  end
+
+  def rejection_count
+    rejected_by.count
+  end
+
+  def previously_rejected?
+    rejection_count > 0
   end
 
   def to_s
@@ -73,15 +82,6 @@ class Individual
   def partner
     if pairing
       male? ? pairing.female : pairing.male
-    end
-  end
-
-  def evaluate_individual(other)
-    case
-    when other.attractiveness.in?(8..10) then true
-    when rejected_by.max.to_i >= other.attractiveness then true
-    else
-      false
     end
   end
 

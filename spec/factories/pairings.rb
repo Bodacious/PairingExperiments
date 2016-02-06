@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :pairing do
-    male { create(:male) }
-    female { create(:female) }
+    male { build(:male) }
+    female { build(:female) }
 
     initialize_with { new(male, female) }
   end

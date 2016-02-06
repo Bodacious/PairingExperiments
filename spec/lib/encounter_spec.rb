@@ -1,12 +1,13 @@
+require "spec_helper"
 require "encounter"
 
 describe Encounter do
 
-  let(:male) { Individual.new(:male, 10) }
+  let(:male) { build(:male, attractiveness: 10) }
 
-  let(:female) { Individual.new(:female, 10) }
+  let(:female) { build(:female, attractiveness: 10) }
 
-  let(:encounter) { Encounter.new(male, female)}
+  let(:encounter) { build(:encounter, male: male, female: female) }
 
 
   describe "#pairing" do

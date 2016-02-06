@@ -4,9 +4,9 @@ describe Pairing do
 
   describe "#initialize" do
 
-    let(:male) { create(:male) }
+    let(:male) { build(:male) }
 
-    let(:female) { create(:female) }
+    let(:female) { build(:female) }
 
     it "accepts a male and female as parameters" do
       Pairing.new(male, female)
