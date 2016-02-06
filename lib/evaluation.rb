@@ -5,7 +5,7 @@ class Evaluation
 
   attr_reader :object
 
-  attr_accessor :outcome
+  attr_writer :outcome
 
   attr_reader :available_options
 
@@ -24,9 +24,11 @@ class Evaluation
   def evaluate!
     case
       # They're super hot, just say yes!
-    when object.attractiveness.in?(9..10)
+    when object.attractiveness == 10
       self.outcome = true
 
+    when subject.previously_rejected? && subject.rejected_by.max + 2 > object.attractiveness
+      self.outcome = true
 
       # You've been rejected by someone lower, say yes!
     when subject.previously_rejected? && subject.rejected_by.max <= object.attractiveness
@@ -44,6 +46,10 @@ class Evaluation
       # Take a gamble on something better
       self.outcome = false
     end
+  end
+
+  def outcome
+    @outcome.nil? ? raise("Evaluation hasn't taken place") : @outcome
   end
 
   def positive?
